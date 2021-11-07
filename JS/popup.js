@@ -1,3 +1,10 @@
+let ip = localStorage.getItem("ip");
+
+if (!ip) {
+    ip = "http://192.168.0.96";
+    localStorage.setItem("ip", ip);
+}
+
 const autoPlayButton = document.querySelector(".auto-play");
 autoPlayButton.addEventListener("click", startAutoPlay);
 
@@ -6,6 +13,10 @@ stopButton.addEventListener("click", stopAutoPlay);
 
 const delayInput = document.querySelector(".delay");
 delayInput.addEventListener("change", setDelay);
+
+const ipInput = document.querySelector(".ip");
+ipInput.value = ip;
+ipInput.addEventListener("change", setIp)
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     switch(request.type) {
@@ -30,7 +41,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 async function getAnswerByImagePath(imagePath) {
-    const response = await fetch(`http://192.168.0.96/answers?imagePath=${imagePath}`)
+    const response = await fetch(`${ip}/answers?imagePath=${imagePath}`)
         .catch(e => console.error("Фильм не найден!"));
     if (response.ok) {
         const data = await response.json();
@@ -41,7 +52,7 @@ async function getAnswerByImagePath(imagePath) {
 }
 
 async function addAnswerData(data) {
-    const response = await fetch("http://192.168.0.96/answers", {
+    const response = await fetch(`${ip}/answers`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -73,4 +84,10 @@ function setDelay(e) {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, { type: "setDelay", value: e.target.value });
     });
+}
+
+function setIp(e) {
+    ip = e.target.value;
+    localStorage.setItem("ip", ip);
+    console.log(`IP: ${ip} записан в хранилище!`);
 }

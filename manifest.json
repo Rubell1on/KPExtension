@@ -17,5 +17,5 @@
         	"js": ["./JS/index.js"]
         }
     ],
-	"permissions": ["activeTab", "scripting"]
+	"permissions": ["activeTab", "scripting", "storage"]
 }
