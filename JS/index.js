@@ -20,6 +20,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         case "stop":
             playing = false;
             break;
+
+        case "setDelay":
+            time = request.value;
+            break;
     }
 });
 

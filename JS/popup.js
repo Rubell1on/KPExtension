@@ -2,7 +2,10 @@ const autoPlayButton = document.querySelector(".auto-play");
 autoPlayButton.addEventListener("click", startAutoPlay);
 
 const stopButton = document.querySelector(".stop");
-stopButton.addEventListener("click", stopAutoPlay)
+stopButton.addEventListener("click", stopAutoPlay);
+
+const delayInput = document.querySelector(".delay");
+delayInput.addEventListener("change", setDelay);
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     switch(request.type) {
@@ -63,5 +66,11 @@ async function startAutoPlay() {
 function stopAutoPlay() {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, { type: "stop" });
+    });
+}
+
+function setDelay(e) {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, { type: "setDelay", value: e.target.value });
     });
 }

@@ -8,8 +8,15 @@
 </head>
 <body>
     <div class="extension__popup">
-        <button class="auto-play">Auto play</button>
-        <button class="stop">Stop</button>
+        <h2 class="extension__title">Бот для кинопоиска</h2>
+        <div class="extension__controls">
+            <div class="input-field controls__delay-wrapper">
+                <label for="delay">Временная задержка (сек)</label>
+                <input id="delay" class="delay" type="number" value="1.5">
+            </div>
+            <button class="auto-play">Auto play</button>
+            <button class="stop">Stop</button>
+        </div>
     </div>
     <script src="./JS/popup.js"></script>
 </body>
